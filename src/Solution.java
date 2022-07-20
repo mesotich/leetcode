@@ -1,26 +1,32 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.lengthOfLongestSubstring("abb"));
+        int[] nums1 = {1, 2};
+        int[] nums2 = {3, 4};
+        System.out.println(solution.findMedianSortedArrays(nums1, nums2));
     }
 
-    public int lengthOfLongestSubstring(String s) {
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        int maxLength = 0;
-        for (int first=0, last=0; last < s.length(); last++) {
-            Integer repeated = map.get(s.charAt(last));
-            if (repeated == null || repeated < first) {
-                maxLength = Math.max(maxLength, last - first + 1);
-            } else {
-                first = repeated + 1;
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int[] arr = new int[nums1.length + nums2.length];
+        int i = 0;
+        int j = 0;
+        int n = 0;
+        while (n < arr.length) {
+            int first = i < nums1.length ? nums1[i] : Integer.MAX_VALUE;
+            int second = j < nums2.length ? nums2[j] : Integer.MAX_VALUE;
+            if (first < second) {
+                arr[n] = first;
+                i++;
             }
-            map.put(s.charAt(last), last);
+            if (first >= second) {
+                arr[n] = second;
+                j++;
+            }
+            n++;
         }
-        return maxLength;
+        int middle = arr[arr.length / 2];
+        return arr.length % 2 != 0 ? middle : (double) (middle + arr[arr.length/2 - 1]) / 2;
     }
 }
+
