@@ -2,32 +2,28 @@ class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.longestPalindrome("aba"));
+        System.out.println(solution.convert("ABCDE", 4));
     }
 
-    public String longestPalindrome(String s) {
+    public String convert(String s, int numRows) {
+        if (numRows == 1)
+            return s;
+        StringBuilder sb = new StringBuilder();
         int left;
         int right;
-        int maxLen = 0;
-        int[] result = new int[2];
-        for (int i = 0; i < s.length(); i++) {
-            left = i;
-            right = i;
-            while (right < s.length()-1 && s.charAt(i) == s.charAt(right+1)) {
-                right++;
-            }
-            while (left > 0 && right < s.length()-1 && s.charAt(left-1) == s.charAt(right+1)) {
-                left--;
-                right++;
-            }
-            int len = right - left + 1;
-            if (len > maxLen) {
-                maxLen = len;
-                result[0] = left;
-                result[1] = right;
+        int step = 2 * (numRows - 1);
+        int column = s.length() / step + 2;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < column; j++) {
+                left = j * step - i;
+                right = j * step + i;
+                if (left >= 0 && left < s.length() && left != j * step - step / 2 && left != right)
+                    sb.append(s.charAt(left));
+                if (right >= 0 && right < s.length())
+                    sb.append(s.charAt(right));
             }
         }
-        return s.substring(result[0], result[1] + 1);
+        return sb.toString();
     }
 }
 
