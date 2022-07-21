@@ -2,31 +2,32 @@ class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums1 = {1, 2};
-        int[] nums2 = {3, 4};
-        System.out.println(solution.findMedianSortedArrays(nums1, nums2));
+        System.out.println(solution.longestPalindrome("aba"));
     }
 
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int[] arr = new int[nums1.length + nums2.length];
-        int i = 0;
-        int j = 0;
-        int n = 0;
-        while (n < arr.length) {
-            int first = i < nums1.length ? nums1[i] : Integer.MAX_VALUE;
-            int second = j < nums2.length ? nums2[j] : Integer.MAX_VALUE;
-            if (first < second) {
-                arr[n] = first;
-                i++;
+    public String longestPalindrome(String s) {
+        int left;
+        int right;
+        int maxLen = 0;
+        int[] result = new int[2];
+        for (int i = 0; i < s.length(); i++) {
+            left = i;
+            right = i;
+            while (right < s.length()-1 && s.charAt(i) == s.charAt(right+1)) {
+                right++;
             }
-            if (first >= second) {
-                arr[n] = second;
-                j++;
+            while (left > 0 && right < s.length()-1 && s.charAt(left-1) == s.charAt(right+1)) {
+                left--;
+                right++;
             }
-            n++;
+            int len = right - left + 1;
+            if (len > maxLen) {
+                maxLen = len;
+                result[0] = left;
+                result[1] = right;
+            }
         }
-        int middle = arr[arr.length / 2];
-        return arr.length % 2 != 0 ? middle : (double) (middle + arr[arr.length/2 - 1]) / 2;
+        return s.substring(result[0], result[1] + 1);
     }
 }
 
