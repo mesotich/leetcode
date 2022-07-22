@@ -1,45 +1,29 @@
 class Solution {
 
-    public int myAtoi(String s) {
-        if (s == null || s.isEmpty())
-            return 0;
-        int len = s.length();
-        char ch = s.charAt(0);
-        if (len == 1 && ch < 48 || ch > 59)
-            return 0;
-        int start = 0;
-        int end;
-        boolean isSignFind = false;
-        boolean isMinus = false;
-        int result;
-        while (((ch = s.charAt(start)) == ' ' && !isSignFind) || ch == '0'
-                || (!isSignFind && ch == '+') || (!isSignFind && ch == '-')) {
-            if (ch == '0' || ch == '+' || ch == '-') {
-                isSignFind = true;
-                if (ch == '-')
-                    isMinus = true;
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.isPalindrome(1));
+    }
+
+    public boolean isPalindrome(int x) {
+        if (x == 0)
+            return true;
+        if (x < 0)
+            return false;
+        int num = (int) Math.log10(x);
+        if (num == 0)
+            return true;
+        int del;
+        while (num >= 1) {
+            del = (int) Math.pow(10, num);
+            if (x % 10 != x / del) {
+                return false;
             }
-            start++;
-            if (start == len)
-                return 0;
+            x = x % del;
+            x /= 10;
+            num -= 2;
         }
-        if (ch < 48 || ch > 57)
-            return 0;
-        end = start;
-        while ((ch = s.charAt(end)) >= 48 && ch <= 57) {
-            if (end - start >= 10)
-                return isMinus ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-            end++;
-            if (end == len)
-                break;
-        }
-        try {
-            result = Integer.parseInt(s.substring(start, end));
-        } catch (NumberFormatException e) {
-            return isMinus ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-        }
-        return isMinus ? -result : result;
+        return true;
     }
 }
-
 
