@@ -2,20 +2,30 @@ class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
+        System.out.println(solution.intToRoman(3999));
     }
 
-    public int maxArea(int[] height) {
-        int left = 0;
-        int right = height.length - 1;
-        int maxSquare = 0;
-        int min = 0;
-        while (left < right) {
-            min = Math.min(height[left], height[right]);
-            maxSquare = Math.max(maxSquare, (right - left) * min);
-            min = min == height[left] ? left++ : right--;
+    public String intToRoman(int num) {
+        StringBuilder sb = new StringBuilder();
+        char[] chars = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+        int n;
+        int i = 0;
+        int del;
+        while (num > 0) {
+            n = num % 10;
+            del = n % 5;
+            if (del == 4) {
+                if (n == 9) sb.append(chars[i + 2]);
+                else sb.append(chars[i + 1]);
+                sb.append(chars[i]);
+            } else {
+                sb.append(String.valueOf(chars[i]).repeat(del));
+                if (n >= 5) sb.append(chars[i + 1]);
+            }
+            num /= 10;
+            i += 2;
         }
-        return maxSquare;
+        return sb.reverse().toString();
     }
 }
 
