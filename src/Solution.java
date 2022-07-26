@@ -2,30 +2,28 @@ class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.intToRoman(3999));
+        System.out.println(solution.romanToInt("MCMXCIV"));
     }
 
-    public String intToRoman(int num) {
-        StringBuilder sb = new StringBuilder();
-        char[] chars = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
-        int n;
-        int i = 0;
-        int del;
-        while (num > 0) {
-            n = num % 10;
-            del = n % 5;
-            if (del == 4) {
-                if (n == 9) sb.append(chars[i + 2]);
-                else sb.append(chars[i + 1]);
-                sb.append(chars[i]);
-            } else {
-                sb.append(String.valueOf(chars[i]).repeat(del));
-                if (n >= 5) sb.append(chars[i + 1]);
+    public int romanToInt(String s) {
+        int result = 0;
+        int current = 0;
+        int previous = 0;
+        for (int i = 0; i < s.length(); i++) {
+            switch (s.charAt(i)) {
+                case 'I' -> current = 1;
+                case 'V' -> current = 5;
+                case 'X' -> current = 10;
+                case 'L' -> current = 50;
+                case 'C' -> current = 100;
+                case 'D' -> current = 500;
+                case 'M' -> current = 1000;
             }
-            num /= 10;
-            i += 2;
+            if (current <= previous) result += current;
+            else result = result - 2 * previous + current;
+            previous = current;
         }
-        return sb.reverse().toString();
+        return result;
     }
 }
 
