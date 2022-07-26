@@ -2,28 +2,23 @@ class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.romanToInt("MCMXCIV"));
+        System.out.println(solution.longestCommonPrefix(new String[]{"lower", "flow", "flight"}));
     }
 
-    public int romanToInt(String s) {
-        int result = 0;
-        int current = 0;
-        int previous = 0;
-        for (int i = 0; i < s.length(); i++) {
-            switch (s.charAt(i)) {
-                case 'I' -> current = 1;
-                case 'V' -> current = 5;
-                case 'X' -> current = 10;
-                case 'L' -> current = 50;
-                case 'C' -> current = 100;
-                case 'D' -> current = 500;
-                case 'M' -> current = 1000;
+    public String longestCommonPrefix(String[] strs) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < strs[0].length(); i++) {
+            for (int j = 1; j < strs.length; j++) {
+                try {
+                    if (strs[j].charAt(i) != strs[j - 1].charAt(i))
+                        return sb.toString();
+                } catch (IndexOutOfBoundsException e) {
+                    return sb.toString();
+                }
             }
-            if (current <= previous) result += current;
-            else result = result - 2 * previous + current;
-            previous = current;
+            sb.append(strs[0].charAt(i));
         }
-        return result;
+        return sb.toString();
     }
 }
 
