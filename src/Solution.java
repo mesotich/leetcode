@@ -1,24 +1,37 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 class Solution {
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.longestCommonPrefix(new String[]{"lower", "flow", "flight"}));
-    }
 
-    public String longestCommonPrefix(String[] strs) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < strs[0].length(); i++) {
-            for (int j = 1; j < strs.length; j++) {
-                try {
-                    if (strs[j].charAt(i) != strs[j - 1].charAt(i))
-                        return sb.toString();
-                } catch (IndexOutOfBoundsException e) {
-                    return sb.toString();
-                }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        int left = 0;
+        int right = nums.length - 1;
+        int middle;
+        int sum;
+        while (left < nums.length - 2) {
+            while (left < right - 1 && left - 1 >= 0 && nums[left] == nums[left - 1]) {
+                left++;
             }
-            sb.append(strs[0].charAt(i));
+            while (left < right - 1) {
+                while (left < right - 1 && right + 1 < nums.length && nums[right] == nums[right + 1]) {
+                    right--;
+                }
+                sum = nums[left] + nums[right];
+                middle = Arrays.binarySearch(nums, left + 1, right, -sum);
+                if (middle >= 0) result.add(new ArrayList<>(Arrays.asList(nums[left], nums[middle], nums[right])));
+                right--;
+            }
+            right = nums.length - 1;
+            left++;
         }
-        return sb.toString();
+        return result;
     }
 }
+
+
 
