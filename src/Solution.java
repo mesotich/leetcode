@@ -1,37 +1,32 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 class Solution {
 
-
-
-    public List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums);
-        List<List<Integer>> result = new ArrayList<>();
-        int left = 0;
-        int right = nums.length - 1;
-        int middle;
+    public int threeSumClosest(int[] nums, int target) {
+        final int len = nums.length - 1;
+        int low;
+        int high;
         int sum;
-        while (left < nums.length - 2) {
-            while (left < right - 1 && left - 1 >= 0 && nums[left] == nums[left - 1]) {
-                left++;
+        int result = nums[0]+nums[1]+nums[2];
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            low = i + 1;
+            high = len;
+            while (low < high) {
+                sum = nums[i] + nums[low] + nums[high];
+                if (sum == target) return target;
+                if (sum < target) low++;
+                else high--;
+                if (Math.abs(sum - target) < Math.abs(result - target))
+                    result = sum;
             }
-            while (left < right - 1) {
-                while (left < right - 1 && right + 1 < nums.length && nums[right] == nums[right + 1]) {
-                    right--;
-                }
-                sum = nums[left] + nums[right];
-                middle = Arrays.binarySearch(nums, left + 1, right, -sum);
-                if (middle >= 0) result.add(new ArrayList<>(Arrays.asList(nums[left], nums[middle], nums[right])));
-                right--;
-            }
-            right = nums.length - 1;
-            left++;
         }
         return result;
     }
 }
+
+
+
 
 
 
