@@ -42,7 +42,7 @@ class Solution {
                     if (sum < target)
                         continue;
                     if (index <= third + 1)
-                        index = nums.length;
+                        continue;
                     index = Arrays.binarySearch(nums, third + 1, index, (int) (target - threeSum));
                     if (index >= 0) {
                         result.add(new ArrayList<>(List.of(nums[first], nums[second], nums[third], nums[index])));
