@@ -1,49 +1,42 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 class Solution {
 
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null) return list2;
-        if (list2 == null) return list1;
-        ListNode listNode = new ListNode();
-        ListNode node = listNode;
-        while (list1 != null || list2 != null) {
-            if (list1 == null) {
-                listNode.next = list2;
-                list2 = list2.next;
-            } else if (list2 == null || list1.val <= list2.val) {
-                listNode.next = list1;
-                list1 = list1.next;
-            } else {
-                listNode.next = list2;
-                list2 = list2.next;
-            }
-            listNode = listNode.next;
-        }
-        return node.next;
+    private int len;
+    private int n;
+    private List<Integer> result;
+
+    public List<String> generateParenthesis(int n) {
+        if (n == 1)
+            return new ArrayList<>(List.of("()"));
+        this.n = n;
+        len = 2 * n;
+        result = new ArrayList<>();
+        generation(1, 0, 0);
+        return result.stream().map(x -> intToString(x, n)).collect(Collectors.toList());
     }
 
-    public static class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {
+    private void generation(int exp, int open, int close) {
+        if (open + close == len) {
+            result.add(exp);
+            return;
         }
+        if (open < n)
+            generation(exp << 1 | 1, open + 1, close);
+        if (close < open)
+            generation(exp << 1, open, close + 1);
+    }
 
-        ListNode(int val) {
-            this.val = val;
+    private String intToString(int exp, int n) {
+        StringBuilder sb = new StringBuilder();
+        char ch;
+        for (int i = 0; i < len; i++) {
+            ch = exp % 2 == 1 ? ')' : '(';
+            sb.append(ch);
+            exp /= 2;
         }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
+        return sb.toString();
     }
 }
-
-
-
-
-
-
-
