@@ -1,42 +1,51 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.TreeSet;
 
 class Solution {
 
-    private int len;
-    private int n;
-    private List<Integer> result;
-
-    public List<String> generateParenthesis(int n) {
-        if (n == 1)
-            return new ArrayList<>(List.of("()"));
-        this.n = n;
-        len = 2 * n;
-        result = new ArrayList<>();
-        generation(1, 0, 0);
-        return result.stream().map(x -> intToString(x, n)).collect(Collectors.toList());
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0)
+            return null;
+        if (lists.length == 1)
+            return lists[0];
+        ListNode newNode = new ListNode();
+        ListNode node;
+        ListNode result = newNode;
+        TreeSet<ListNode> set = new TreeSet<>((o1, o2) -> {
+            if (o1.val == o2.val)
+                return o1.hashCode() - o2.hashCode();
+            return o1.val - o2.val;
+        });
+        for (ListNode n : lists
+        ) {
+            if (n != null)
+                set.add(n);
+        }
+        while (!set.isEmpty()) {
+            node = set.pollFirst();
+            newNode.next = node;
+            newNode = newNode.next;
+            node = node.next;
+            if (node != null)
+                set.add(node);
+        }
+        return result.next;
     }
 
-    private void generation(int exp, int open, int close) {
-        if (open + close == len) {
-            result.add(exp);
-            return;
-        }
-        if (open < n)
-            generation(exp << 1 | 1, open + 1, close);
-        if (close < open)
-            generation(exp << 1, open, close + 1);
-    }
+    public static class ListNode {
 
-    private String intToString(int exp, int n) {
-        StringBuilder sb = new StringBuilder();
-        char ch;
-        for (int i = 0; i < len; i++) {
-            ch = exp % 2 == 1 ? ')' : '(';
-            sb.append(ch);
-            exp /= 2;
+        int val;
+        ListNode next;
+
+        ListNode() {
         }
-        return sb.toString();
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }
