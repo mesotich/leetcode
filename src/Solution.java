@@ -1,18 +1,18 @@
 class Solution {
 
-    public int removeDuplicates(int[] nums) {
+    public int removeElement(int[] nums, int val) {
         int start = 0;
-        int end = 1;
+        int end = 0;
         while (end < nums.length) {
-            while (nums[start] == nums[end]) {
+            while (nums[end] == val) {
                 end++;
                 if (end >= nums.length)
-                    return start + 1;
+                    return start;
             }
-            start++;
             nums[start] = nums[end];
+            start++;
             end++;
         }
-        return start + 1;
+        return start;
     }
 }
