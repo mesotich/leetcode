@@ -1,27 +1,36 @@
+
 class Solution {
 
-    public int strStr(String haystack, String needle) {
-        int st = 0;
-        char ch = needle.charAt(0);
-        while (st + needle.length() <= haystack.length()) {
-            if (haystack.charAt(st) != ch) {
-                st++;
-                continue;
+    public int divide(int dividend, int divisor) {
+        if (dividend == divisor)
+            return 1;
+        if (dividend == 0)
+            return 0;
+        boolean sign = ((dividend ^ divisor) & Integer.MIN_VALUE) == 0;
+        dividend = dividend < 0 ? dividend : -dividend;
+        divisor = divisor < 0 ? divisor : -divisor;
+        if (divisor == -1) {
+            if (dividend == Integer.MIN_VALUE && sign) {
+                dividend = Integer.MAX_VALUE;
+                sign = false;
             }
-            if (needle.length() == 1)
-                return st;
-            if (st > haystack.length() - 2)
-                return -1;
-            int n = 1;
-            while (haystack.charAt(st + n) == needle.charAt(n)) {
-                if (n == needle.length() - 1)
-                    return st;
-                if (st + n == haystack.length() - 1)
-                    return -1;
-                n++;
-            }
-            st++;
+            return sign ? -dividend : dividend;
         }
-        return -1;
+        int result = 0;
+        int del;
+        int i;
+        while (dividend <= divisor) {
+            i = 1;
+            del = divisor;
+            dividend -= del;
+            result++;
+            while (dividend <= del) {
+                dividend -= del;
+                result += i;
+                del += del;
+                i += i;
+            }
+        }
+        return sign ? result : -result;
     }
 }
