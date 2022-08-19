@@ -1,36 +1,41 @@
+import java.util.*;
+import java.util.stream.Collectors;
 
 class Solution {
 
-    public int divide(int dividend, int divisor) {
-        if (dividend == divisor)
-            return 1;
-        if (dividend == 0)
-            return 0;
-        boolean sign = ((dividend ^ divisor) & Integer.MIN_VALUE) == 0;
-        dividend = dividend < 0 ? dividend : -dividend;
-        divisor = divisor < 0 ? divisor : -divisor;
-        if (divisor == -1) {
-            if (dividend == Integer.MIN_VALUE && sign) {
-                dividend = Integer.MAX_VALUE;
-                sign = false;
-            }
-            return sign ? -dividend : dividend;
+    private int len;
+    private int lenAll;
+    private String s;
+    private Map<String, Integer> map;
+
+    public List<Integer> findSubstring(String s, String[] words) {
+        len = words[0].length();
+        lenAll = words.length * len;
+        if (s.length() < lenAll)
+            return Collections.emptyList();
+        List<Integer> result = new ArrayList<>();
+        this.s = s;
+        map = Arrays.stream(words).collect(Collectors.toMap(w -> w, w -> 1, (v1, v2) -> v1 + 1));
+        int i = 0;
+        while (s.length() - i >= lenAll) {
+            if (map.containsKey(s.substring(i, i + len)) && findSubRec(i))
+                result.add(i);
+            i++;
         }
-        int result = 0;
-        int del;
-        int i;
-        while (dividend <= divisor) {
-            i = 1;
-            del = divisor;
-            dividend -= del;
-            result++;
-            while (dividend <= del) {
-                dividend -= del;
-                result += i;
-                del += del;
-                i += i;
-            }
+        return result;
+    }
+
+    private boolean findSubRec(int i) {
+        Map<String, Integer> map = new HashMap<>(this.map);
+        int lenAll = this.lenAll;
+        String w;
+        while (s.length() - i >= lenAll && lenAll != 0) {
+            w = s.substring(i, i + len);
+            if (!map.containsKey(w) || map.get(w) == 0) return false;
+            i += len;
+            lenAll -= len;
+            map.put(w, map.get(w) - 1);
         }
-        return sign ? result : -result;
+        return lenAll == 0;
     }
 }
