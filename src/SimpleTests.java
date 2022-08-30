@@ -2,8 +2,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SimpleTests {
 
@@ -16,37 +17,41 @@ public class SimpleTests {
 
     @Test
     public void testSimple1() {
-        List<Integer> actual = solution.findSubstring("barfoothefoobarman", new String[]{"foo", "bar"});
-        Assert.assertEquals(List.of(0, 9), actual);
+        int[] arr = {1, 2, 3};
+        solution.nextPermutation(arr);
+        Assert.assertEquals(List.of(1, 3, 2), Arrays.stream(arr).boxed().collect(Collectors.toList()));
     }
-
     @Test
     public void testSimple2() {
-        List<Integer> actual = solution.findSubstring("wordgoodgoodgoodbestword", new String[]{"word", "good", "best", "word"});
-        Assert.assertEquals(Collections.emptyList(), actual);
+        int[] arr = {3, 2, 1};
+        solution.nextPermutation(arr);
+        Assert.assertEquals(List.of(1, 2, 3), Arrays.stream(arr).boxed().collect(Collectors.toList()));
     }
 
     @Test
     public void testSimple3() {
-        List<Integer> actual = solution.findSubstring("barfoofoobarthefoobarman", new String[]{"bar", "foo", "the"});
-        Assert.assertEquals(List.of(6, 9, 12), actual);
+        int[] arr = {1, 1, 5};
+        solution.nextPermutation(arr);
+        Assert.assertEquals(List.of(1, 5, 1), Arrays.stream(arr).boxed().collect(Collectors.toList()));
     }
-
     @Test
     public void testSimple4() {
-        List<Integer> actual = solution.findSubstring("abcdabcefj", new String[]{"abc", "bcd", "efj"});
-        Assert.assertEquals(List.of(1), actual);
+        int[] arr = {1, 3, 2};
+        solution.nextPermutation(arr);
+        Assert.assertEquals(List.of(2, 1, 3), Arrays.stream(arr).boxed().collect(Collectors.toList()));
     }
-
     @Test
     public void testSimple5() {
-        List<Integer> actual = solution.findSubstring("aaaaaaaaaa", new String[]{"aaa", "aaa", "aaa"});
-        Assert.assertEquals(List.of(0, 1), actual);
+        int[] arr = {2, 3, 1};
+        solution.nextPermutation(arr);
+        Assert.assertEquals(List.of(3, 1, 2), Arrays.stream(arr).boxed().collect(Collectors.toList()));
     }
-
-    @Test
-    public void testSimple6() {
-        List<Integer> actual = solution.findSubstring("wordgoodgoodgoodbestword", new String[]{"word", "good", "best", "good"});
-        Assert.assertEquals(List.of(8), actual);
-    }
+//    Wrong Answer
+//    Details
+//            Input
+//[2,3,1]
+//    Output
+//[3,2,1]
+//    Expected
+//[3,1,2]
 }
