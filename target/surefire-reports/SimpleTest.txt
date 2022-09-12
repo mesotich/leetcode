@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: SimpleTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.025 s <<< FAILURE! - in SimpleTest
+simpleTest1  Time elapsed: 0.014 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2> but was: <0>
+	at SimpleTest.simpleTest1(SimpleTest.java:19)
+
+simpleTest2  Time elapsed: 0 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <4> but was: <0>
+	at SimpleTest.simpleTest2(SimpleTest.java:25)
+
